@@ -7,13 +7,21 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.setExtractBareNamePropertyMethods;
 
 /***
  * Просто запускаешь все тесты через стрелку класса, или конкретный метод через ту же стрелку у него.
@@ -238,7 +246,8 @@ public class StreamServiceTest {
     }
 
     @Test
-    @DisplayName("(test_11) Возвращает список остортированных по алфовиту слов, без повторов, состоящий только из первых 3ех слов.")
+    @DisplayName(
+            "(test_11) Возвращает список остортированных по алфовиту слов, без повторов, состоящий только из первых 3ех слов.")
     public void task_11() {
         List<String> example = dataGenerator.getRandomStringList();
         List<String> modifybleList = new ArrayList<>(example);
@@ -262,36 +271,167 @@ public class StreamServiceTest {
     @Test
     @DisplayName("Возвращает все уникальные символы в заданной строке в массиве в алфавитном порядке")
     public void task_12() {
+        String example = dataGenerator.getRandomString();
+        char[] chars = example.toCharArray();
+        Set<String> stringSet = new TreeSet<>();
+        for (int c = 0; c < chars.length; c++) {
+            stringSet.add(Character.toString(chars[c]));
+        }
+
+        String[] expected = new String[stringSet.size()];
+        int i = 0;
+        for (String s : stringSet) {
+            expected[i] = s;
+            i++;
+        }
+
+        //test
+        String[] actual = underTest.task_12();
+
+        //check
+        assertThat(actual).hasSize(expected.length);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    @DisplayName("13")
+    @DisplayName("Возвращает все числа большие, чем среднее арифметичкое по всему листу;")
     public void task_13() {
+        List<Integer> example = dataGenerator.getRandomIntegerList();
+        int sum = 0;
+        for (Integer integer : example) {
+            sum += integer;
+        }
+        int average = sum / example.size();
+
+        List<Integer> expected = new ArrayList<>();
+        for (Integer integer : example) {
+            if (integer > average) {
+                expected.add(integer);
+            }
+        }
+
+        //test
+        List<Integer> actual = underTest.task_13();
+
+        //check
+        assertThat(actual).hasSize(expected.size());
+        assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("paramsForTask_14_18")
     @DisplayName("14")
-    public void task_14() {
+    public void task_14(int limit) {
+        List<String> example = dataGenerator.getRandomStringList();
+        List<String> expected = new ArrayList<>();
+
+        char[] chars;
+        StringBuilder word;
+        for (String s : example) {
+            chars = s.toCharArray();
+            word = new StringBuilder();
+            for (char aChar : chars) {
+                if (aChar != 'a' &&
+                        aChar != 'e' &&
+                        aChar != 'y' &&
+                        aChar != 'u' &&
+                        aChar != 'i' &&
+                        aChar != 'o') {
+                    word.append(aChar);
+                }
+            }
+            if (word.length() < limit) {
+                expected.add(word.toString());
+            }
+        }
+
+        //test
+        List<String> actual = underTest.task_14(limit);
+
+        //check
+        assertThat(actual).hasSize(expected.size());
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    @DisplayName("15")
+    @DisplayName("Возвращает только слова, которые начинаются и заканчиваются на одну и ту же букву.")
     public void task_15() {
+        List<String> example = dataGenerator.getRandomStringList();
+        List<String> expected = new ArrayList<>();
+        char[] chars;
+        for (String s : example) {
+            chars = s.toCharArray();
+            if (chars[0] == chars[s.length() - 1]){
+                expected.add(s);
+            }
+        }
+
+        //test
+        List<String> actual = underTest.task_15();
+
+        //check
+        assertThat(actual).hasSize(expected.size());
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    @DisplayName("16")
+    @DisplayName("Возвращает все числа, которые являются степенями двойки")
     public void task_16() {
+        List<Integer> example = dataGenerator.getRandomIntegerList();
+        List<Integer> expected = new ArrayList<>();
+        for (Integer integer : example) {
+            int i;
+            for (i = 2; i < integer; i*=2) {}
+            if (i == integer){
+                expected.add(integer);
+            };
+        }
+
+        //test
+        List<Integer> actual = underTest.task_16();
+
+        //check
+        assertThat(actual).hasSize(expected.size());
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    @DisplayName("17")
+    @DisplayName("Группирует список слов по первой букве (независимо от регистра) и вывести каждую группу слов на отдельной строке.")
     public void task_17() {
+        List<String> example = dataGenerator.getRandomStringList();
+        Map<Character,Set<String>> expected = new HashMap<>();
+        char first;
+        for (String string : example) {
+            first = string.charAt(0);
+            if (expected.containsKey(Character.toLowerCase(first))){
+                expected.get(Character.toLowerCase(first)).add(string);
+            } else {
+                Set<String> newSet = new HashSet<>();
+                newSet.add(string);
+                expected.put(Character.toLowerCase(first), newSet);
+            }
+        }
+
+        //test
+        Map<Character, ? extends Collection<String>> actual = underTest.task_17();
+
+        //check
+        assertThat(actual).hasSize(expected.size());
+        assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
-    @DisplayName("18")
-    public void task_18() {
+    @ParameterizedTest
+    @MethodSource("paramsForTask_14_18")
+    @DisplayName("Возвращает лист содержащий переданное количество квадратов натуральных чисел")
+    public void task_18(int amount) {
+        int expected = 0;
+        for (int j = 1; j <= amount; expected += j * j++) {}
+
+        //test
+        Integer actual = underTest.task_18(amount);
+
+        //check
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -322,7 +462,7 @@ public class StreamServiceTest {
                     break;
                 }
             }
-            if (isEasy){
+            if (isEasy) {
                 expected.add(integer);
             }
         }
@@ -346,6 +486,9 @@ public class StreamServiceTest {
     }
 
     private static Stream<Arguments> paramsForTask_9_10() {
-        return Stream.of("ox", "OX", "foX", "fox", "FOX","Foxes").map(Arguments::of);
+        return Stream.of("ox", "OX", "foX", "fox", "FOX", "Foxes").map(Arguments::of);
+    }
+    private static Stream<Arguments> paramsForTask_14_18() {
+        return Stream.of(1,2,3,4,5,6).map(Arguments::of);
     }
 }

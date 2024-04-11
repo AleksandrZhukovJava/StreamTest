@@ -1,7 +1,6 @@
 package org.example.service;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
  * - дописал в метод вместо null одну строчку начинающуюся с вызова listGenerator.getНужныйЛист.
  * - Пошел в тестовый пакет, запустил тест.
  *
- * P/S В скобочках под звездочкой наличие усложненного ыварианта решения. По желанию.
+ * P/S В скобочках под звездочкой наличие усложненного варианта решения. По желанию.
  */
 public class StreamService {
     private final DataGenerator dataGenerator;
@@ -26,15 +25,14 @@ public class StreamService {
         this.dataGenerator = dataGenerator;
     }
 
-    //todo Вернуть тот-же лист что и был как бабуля
-    // (это пример)
+    //todo Вернуть тот-же лист что и был как
     public List<String> example() {
         return dataGenerator.getRandomStringList()
                 .stream()
                 .toList();
     }
 
-    //todo Вернуть спиок длинн всех строк в списке в виде списка
+    //todo Вернуть лист состоящий из длинн всех строк в изначальном списке
     public List<Integer> task_1() {
         return null; //код тут
     }
@@ -101,52 +99,53 @@ public class StreamService {
         return null;
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
+    //todo Нужно вернуть все числа большие чем среднее арифметичкое по всему листу (не решается в 1 строчку)
     public List<Integer> task_13() {
+        return null;
+    }
+
+    //todo Нужно вернуть только те строки из списка, в которых если убрать гласные(английские) буквы, останется не больше максимальной длинны букв.
+    public List<String> task_14(int maxLength) {
+        return null;
+    }
+
+    //todo Нужно вернуть только слова, которые начинаются и заканчиваются на одну и ту же букву.
+    public List<String> task_15() {
         return null; //код тут
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
-    public List<Integer> task_14() {
-        return null; //код тут
-    }
-
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
-    public List<Integer> task_15() {
-        return null; //код тут
-    }
-
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
+    //todo Нужно вернуть все числа, которые являются степенями двойки.
+    // (* в 1 строку)
     public List<Integer> task_16() {
         return null; //код тут
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
-    public List<Integer> task_17() {
+    //todo Нужно сгруппировать список уникальных слов по первой букве (независимо от регистра).
+    public Map<Character, ? extends Collection<String>> task_17() {
         return null; //код тут
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
-    public List<Integer> task_18() {
+    //todo Необходимо создать поток, содержащий переданное количество квадратов натуральных чисел, начиная с 1, и посчитать их сумму. Короче суммировать все квадраты подряд
+    public Integer task_18(int maxAmount) {
         return null; //код тут
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
-    public List<Integer> task_19() {
-        return null; //код тут
+    //todo Возвращает сумму цифр переданного числа. (in progress)
+    public Integer task_19(Integer number) {
+        return number; //код тут
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
+    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка (in progress)
     public List<Integer> task_20() {
         return null; //код тут
     }
 
-    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка
+    //todo Нужно вернуть спиок длинн всех строк в списке в виде списка (in progress)
     public List<Integer> task_21() {
         return null; //код тут
     }
 
-    //todo Возвращает список простых чисел (число делится только на себя и на 1)
+    //todo Возвращает список простых чисел (число делится только на себя и на 1) (in progress)
     public List<Integer> task_22() {
         return null;
     }
