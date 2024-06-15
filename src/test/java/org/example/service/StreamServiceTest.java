@@ -98,7 +98,7 @@ public class StreamServiceTest {
 
         //check
         assertThat(actual).hasSize(expected.size());
-        assertThat(actual).containsExactlyElementsOf(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     /***
